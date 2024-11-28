@@ -4,6 +4,7 @@
 Fn = @DietCostOptimization;     % Fitness function
 Np = 1000;                      % Population Size
 T = 10;                         % No. of iterations
+iter = 100;
 rng(2,'twister')
 
 %% Parameters for Genetic Algorithm
@@ -19,33 +20,41 @@ c2 = 2;
 
 
 % TLBO
-TLBOsol = zeros(1,25);
-for i=1:25
+TLBOsol = zeros(1,iter);
+for i=1:iter
     [bestsolTLBO,bestfitnessTLBO] = TLBO(Fn,l,u,Np,T);
     TLBOsol(i) = bestfitnessTLBO;
 end
 
 % GA
-GAsol = zeros(1,25);
-for i=1:25
+GAsol = zeros(1,iter);
+for i=1:iter
     [bestsolGA,bestfitnessGA] = GeneticAlgorithm(Fn,l,u,Np,T,etac,etam,Pc,Pm);
     GAsol(i) = bestfitnessGA;
 end
 
 % PSO
-PSOsol = zeros(1,25);
-for i=1:25
+PSOsol = zeros(1,iter);
+for i=1:iter
     [Xbest,Fbest] = PSOfunc(Fn,Np,l,u,T,w,c1,c2);
     PSOsol(i) = Fbest;
 end
 
 % Compare TLBO,GA,PSO
+disp("TLBO Solutions");
+disp(TLBOsol);
 TLBOsol = MIN(TLBOsol);
+
+disp("Ga Solutions");
+disp(GAsol);
 GAsol = MIN(GAsol);
+
+disp("PSO Solutions");
+disp(PSOsol);
 PSOsol = MIN(PSOsol);
 
-x = zeros(1,25);
-for i=1:25
+x = zeros(1,iter);
+for i=1:iter
     x(i) = i;
 end
 
@@ -67,6 +76,6 @@ end
 
 function PLOT(y,x,color)
     plot(y,x,color);
-    xlabel("Iterations");
-    ylabel("Fitness")
+    xlabel("Fitness");
+    ylabel("Iteration of Algorithm")
 end
